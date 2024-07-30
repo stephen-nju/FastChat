@@ -2074,6 +2074,20 @@ register_conv_template(
     )
 )
 
+
+register_conv_template(
+    Conversation(
+        name="llama2-honor",
+        system_template="{system_message}",
+        system_message=("<s><TOKENS_UNUSED_1>"),
+        roles=("<TOKENS_UNUSED_1>", "<TOKENS_UNUSED_2>"),
+        sep_style=SeparatorStyle.LLAMA2,
+        sep="",
+        sep2="</s>",
+        stop_str="</s>",
+        stop_token_ids=[],
+    )
+)
 if __name__ == "__main__":
     from fastchat.conversation import get_conv_template
 
@@ -2109,9 +2123,17 @@ if __name__ == "__main__":
     print("\n")
 
     print("-- Claude template --")
-    conv = get_conv_template("claude")
+    conv = get_conv_template("llama-2")
     conv.append_message(conv.roles[0], "Hello!")
     conv.append_message(conv.roles[1], "Hi!")
     conv.append_message(conv.roles[0], "How are you?")
-    conv.append_message(conv.roles[1], None)
+    conv.append_message(conv.roles[1], "im ok")
+    print(conv.get_prompt())
+
+    print("-- honor template --")
+    conv = get_conv_template("llama2-honor")
+    conv.append_message(conv.roles[0], "Hello!")
+    conv.append_message(conv.roles[1], "Hi!")
+    conv.append_message(conv.roles[0], "How are you?")
+    conv.append_message(conv.roles[1], "IM ok")
     print(conv.get_prompt())
